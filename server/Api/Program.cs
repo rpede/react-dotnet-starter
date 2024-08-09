@@ -50,10 +50,11 @@ public class Program
             .AddEntityFrameworkStores<AppDbContext>();
         builder.Services.AddSingleton<IEmailSender<IdentityUser>, AppEmailSender>();
 
-        builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddControllers();
 
         var app = builder.Build();
 
@@ -61,19 +62,16 @@ public class Program
         {
             scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
         }
+        app.UsePathBase("/api");
+
+        app.UseRouting();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger(c =>
-            {
-                c.RouteTemplate = "api/swagger/{documentname}/swagger.json";
-            });
+            app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.RoutePrefix = "api/swagger";
-            });
+            app.UseSwaggerUI();
         }
 
         app.UseHttpsRedirection();
