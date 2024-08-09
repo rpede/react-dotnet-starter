@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "scaffold": "swagger-typescript-api --axios -p http://localhost:5248/api/swagger/v1/swagger.json -o ./src -n ./api.ts"
+    "scaffold": "swagger-typescript-api --axios -p http://localhost:5101/api/swagger/v1/swagger.json -o ./src -n ./api.ts"
   },
   "dependencies": {
     "axios": "^1.7.3",
