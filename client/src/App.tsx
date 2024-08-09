@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Api, LoginRequest, WeatherForecast } from "./api";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 const api = new Api();
 
@@ -24,8 +24,8 @@ function App() {
       setStatus(response.statusText);
       setData(response.data);
     } catch (e) {
-      const error = e as AxiosResponse;
-      setStatus(error.statusText);
+      const error = e as AxiosError;
+      setStatus(error.message);
       setData([]);
     }
   }
