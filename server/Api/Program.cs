@@ -1,3 +1,4 @@
+using Api.Misc;
 using DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -39,9 +40,15 @@ public class Program
                 .Build();
         });
         builder
-            .Services.AddIdentityApiEndpoints<IdentityUser>()
+            .Services.AddIdentityApiEndpoints<IdentityUser>(
+                (options) =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                }
+            )
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>();
+        builder.Services.AddSingleton<IEmailSender<IdentityUser>, AppEmailSender>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
