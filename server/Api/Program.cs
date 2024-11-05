@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service;
+using Service.Services;
 
 namespace Api;
 
@@ -27,6 +28,10 @@ public class Program
                 .UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
         );
+        #endregion
+
+        #region Services
+        builder.Services.AddScoped<PostService>();
         #endregion
 
         #region Security

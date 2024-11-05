@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Api, LoginRequest, WeatherForecast } from "./api";
+import { Api, LoginRequest, PostDto } from "./api";
 import { AxiosError, AxiosResponse } from "axios";
 
 const api = new Api();
@@ -12,7 +12,7 @@ function App() {
   });
 
   const [status, setStatus] = useState<string | null>(null);
-  const [data, setData] = useState<WeatherForecast[]>([]);
+  const [data, setData] = useState<PostDto[]>([]);
 
   useEffect(() => {
     loadData();
@@ -20,7 +20,7 @@ function App() {
 
   async function loadData() {
     try {
-      const response = await api.weatherForecast.getWeatherForecast();
+      const response = await api.post.postList();
       setStatus(response.statusText);
       setData(response.data);
     } catch (e) {
@@ -86,7 +86,9 @@ function App() {
           </div>
           <div className="card">
             <div className="card-title">{status}</div>
-            <div className="card-body">{JSON.stringify(data)}</div>
+            <div className="card-body">
+              <pre>{JSON.stringify(data, null, 2)}</pre>
+            </div>
           </div>
         </div>
       </div>

@@ -11,39 +11,19 @@
 
 export interface AccessTokenResponse {
   tokenType?: string | null;
-  accessToken?: string | null;
+  accessToken: string | null;
   /** @format int64 */
-  expiresIn?: number;
-  refreshToken?: string | null;
+  expiresIn: number;
+  refreshToken: string | null;
 }
 
-export interface DateOnly {
-  /** @format int32 */
-  year?: number;
-  /** @format int32 */
-  month?: number;
-  /** @format int32 */
-  day?: number;
-  dayOfWeek?: DayOfWeek;
-  /** @format int32 */
-  dayOfYear?: number;
-  /** @format int32 */
-  dayNumber?: number;
-}
-
-/** @format int32 */
-export enum DayOfWeek {
-  Value0 = 0,
-  Value1 = 1,
-  Value2 = 2,
-  Value3 = 3,
-  Value4 = 4,
-  Value5 = 5,
-  Value6 = 6,
+export interface CreatePostDto {
+  title?: string | null;
+  content?: string | null;
 }
 
 export interface ForgotPasswordRequest {
-  email?: string | null;
+  email: string | null;
 }
 
 export interface HttpValidationProblemDetails {
@@ -64,34 +44,41 @@ export interface InfoRequest {
 }
 
 export interface InfoResponse {
-  email?: string | null;
-  isEmailConfirmed?: boolean;
+  email: string | null;
+  isEmailConfirmed: boolean;
 }
 
 export interface LoginRequest {
-  email?: string | null;
-  password?: string | null;
+  email: string | null;
+  password: string | null;
   twoFactorCode?: string | null;
   twoFactorRecoveryCode?: string | null;
 }
 
+export interface PostDto {
+  /** @format int64 */
+  id?: number;
+  title?: string | null;
+  content?: string | null;
+}
+
 export interface RefreshRequest {
-  refreshToken?: string | null;
+  refreshToken: string | null;
 }
 
 export interface RegisterRequest {
-  email?: string | null;
-  password?: string | null;
+  email: string | null;
+  password: string | null;
 }
 
 export interface ResendConfirmationEmailRequest {
-  email?: string | null;
+  email: string | null;
 }
 
 export interface ResetPasswordRequest {
-  email?: string | null;
-  resetCode?: string | null;
-  newPassword?: string | null;
+  email: string | null;
+  resetCode: string | null;
+  newPassword: string | null;
 }
 
 export interface TwoFactorRequest {
@@ -103,21 +90,12 @@ export interface TwoFactorRequest {
 }
 
 export interface TwoFactorResponse {
-  sharedKey?: string | null;
+  sharedKey: string | null;
   /** @format int32 */
-  recoveryCodesLeft?: number;
+  recoveryCodesLeft: number;
   recoveryCodes?: string[] | null;
-  isTwoFactorEnabled?: boolean;
-  isMachineRemembered?: boolean;
-}
-
-export interface WeatherForecast {
-  date?: DateOnly;
-  /** @format int32 */
-  temperatureC?: number;
-  /** @format int32 */
-  temperatureF?: number;
-  summary?: string | null;
+  isTwoFactorEnabled: boolean;
+  isMachineRemembered: boolean;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -445,18 +423,57 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  weatherForecast = {
+  post = {
     /**
      * No description
      *
-     * @tags WeatherForecast
-     * @name GetWeatherForecast
-     * @request GET:/WeatherForecast
+     * @tags Post
+     * @name PostList
+     * @request GET:/Post
      */
-    getWeatherForecast: (params: RequestParams = {}) =>
-      this.request<WeatherForecast[], any>({
-        path: `/WeatherForecast`,
+    postList: (params: RequestParams = {}) =>
+      this.request<PostDto[], any>({
+        path: `/Post`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Post
+     * @name PostCreate
+     * @request POST:/Post
+     */
+    postCreate: (data: CreatePostDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/Post`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Post
+     * @name GetPost
+     * @request GET:/Post/:id
+     */
+    getPost: (
+      id: string,
+      query?: {
+        /** @format int64 */
+        id?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PostDto, any>({
+        path: `/Post/${id}`,
+        method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
