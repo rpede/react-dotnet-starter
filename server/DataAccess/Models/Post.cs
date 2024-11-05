@@ -1,5 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Models;
@@ -14,6 +16,9 @@ public partial class Post
 
     public string Content { get; set; } = null!;
 
-    public string? AuthorId { get; set; } = null;
-    public IdentityUser? Author { get; set; }
+    public string? AuthorId { get; set; }
+
+    [ForeignKey("AuthorId")]
+    [InverseProperty("Posts")]
+    public virtual AspNetUser? Author { get; set; }
 }
