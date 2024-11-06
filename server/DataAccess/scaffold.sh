@@ -1,3 +1,5 @@
+#!/bin/bash
+
 connectionString="HOST=localhost;DB=postgres;UID=postgres;PWD=mysecret;PORT=5432;"
 context="AppDbContext"
 
