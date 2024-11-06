@@ -1,3 +1,5 @@
+#!/bin/bash
+
 dotnet ef dbcontext script \
   --project . \
   --startup-project ../Api \
